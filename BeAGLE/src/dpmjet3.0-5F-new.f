@@ -5512,7 +5512,7 @@ C     already samples high momentum for deuteron.
          IF ((NMASS.GE.2) .AND. (NMASS.LE.4) .AND. (IFMDIST.GE.1) ) THEN
             CALL DT_KFERMI(PABS,NMASS,IFMDIST)
          ELSE
-            CALL DT_DFERMI(PABS,NMASS)
+            CALL DT_DFERMI(PABS,NMASS,IFMDIST)
          ENDIF
          PABS = PFERM*PABS
 C        IF (PABS.GE.PBIND) THEN
@@ -17976,30 +17976,35 @@ C     SID = SQRT((ONE-COD)*(ONE+COD))
 *
 *===dfermi=============================================================*
 *
-      SUBROUTINE DT_DFERMI(GPART,ANUCLEUS)
+      SUBROUTINE DT_DFERMI(GPART,ANUCLEUS,IFMDIST)
 
 ************************************************************************
 * Find largest of three random numbers.                                *
 ************************************************************************
+  
+      IF( IFMDIST .EQ. -1 )
+        IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+        SAVE
 
-C       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-C       SAVE
+        DIMENSION G(3)
 
-C       DIMENSION G(3)
+        DO 10 I=1,3
+          G(I)=DT_RNDM(GPART)
+     
+     10 CONTINUE
+        IF (G(3).LT.G(2)) GOTO 40
+        IF (G(3).LT.G(1)) GOTO 30
+        GPART = G(3)
+     20 RETURN
+     30 GPART = G(1)
+        GOTO 20
+     40 IF (G(2).LT.G(1)) GOTO 30
+        GPART = G(2)
+        GOTO 20
 
-C       DO 10 I=1,3
-C         G(I)=DT_RNDM(GPART)
-   
-C    10 CONTINUE
-C       IF (G(3).LT.G(2)) GOTO 40
-C       IF (G(3).LT.G(1)) GOTO 30
-C       GPART = G(3)
-C    20 RETURN
-C    30 GPART = G(1)
-C       GOTO 20
-C    40 IF (G(2).LT.G(1)) GOTO 30
-C       GPART = G(2)
-C       GOTO 20
+        END
+      
+      ENDIF
 
 ************************************************************************
 * Use n(k) in Claudio Ciofi & S. Simula, PRC VOLUME 53, NUMBER 4, 1996.                                *

@@ -5513,7 +5513,7 @@ C     already samples high momentum for deuteron.
             CALL DT_DFERMIO(PABS,NMASS)
          ELSE IF ( (NMASS.GE.2) .AND. (NMASS.LE.4) .AND. (IFMDIST.GE.1) ) THEN
             CALL DT_KFERMI(PABS,NMASS,IFMDIST)
-         ELSE IF ( (NMASS.GT.4) .AND. ((IFMDIST .GE. 1)) ) THEN
+         ELSE IF ( (NMASS.GT.4) .AND. (IFMDIST.GE.1) ) THEN
             CALL DT_DFERMI(PABS,NMASS)
          ENDIF
          PABS = PFERM*PABS

@@ -17990,8 +17990,8 @@ C     SID = SQRT((ONE-COD)*(ONE+COD))
 
        DO 10 I=1,3
          G(I)=DT_RNDM(GPART)
-   
     10 CONTINUE
+       ENDDO
        IF (G(3).LT.G(2)) GOTO 40
        IF (G(3).LT.G(1)) GOTO 30
        GPART = G(3)

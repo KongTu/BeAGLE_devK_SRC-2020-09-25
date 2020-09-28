@@ -5508,15 +5508,6 @@ C     already samples high momentum for deuteron.
     1    CONTINUE
          ! Use IFMDIST, 3rd varaible in control card of FERMI, to switch between
          ! different k momentum distributions
-
-         ! IF( (IFMDIST.EQ.-1) ) THEN
-         !    CALL DT_DFERMIO(PABS,NMASS)
-         ! ELSE IF ( (NMASS.GE.2) .AND. (NMASS.LE.4) .AND. (IFMDIST.GE.1) ) THEN
-         !    CALL DT_KFERMI(PABS,NMASS,IFMDIST)
-         ! ELSE IF ( (NMASS.GT.4) .AND. (IFMDIST.GE.1) ) THEN
-         !    CALL DT_DFERMI(PABS,NMASS)
-         ! ENDIF
-
          IF ((NMASS.GE.2) .AND. (NMASS.LE.4) .AND. (IFMDIST.GE.1) ) THEN
             CALL DT_KFERMI(PABS,NMASS,IFMDIST)
          ELSE IF ( (IFMDIST .EQ. -1) ) THEN
@@ -5524,13 +5515,6 @@ C     already samples high momentum for deuteron.
          ELSE IF ( (NMASS.GT.4) .AND. ((IFMDIST .GE. 1)) ) THEN
             CALL DT_DFERMI(PABS,NMASS)
          ENDIF
-         ! IF ((NMASS.GE.2) .AND. (NMASS.LE.4) .AND. (IFMDIST.GE.1) ) THEN
-         !    CALL DT_KFERMI(PABS,NMASS,IFMDIST)
-         ! ELSE IF ( (NMASS.GT.4) .AND. ((IFMDIST .EQ. -1)) ) THEN
-         !    CALL DT_DFERMIO(PABS,NMASS)
-         ! ELSE IF ( (NMASS.GT.4) .AND. ((IFMDIST .NE. -1)) ) THEN
-         !    CALL DT_DFERMI(PABS,NMASS)
-         ! ENDIF
          PABS = PFERM*PABS
 C        IF (PABS.GE.PBIND) THEN
 C           ILOOP = ILOOP+1

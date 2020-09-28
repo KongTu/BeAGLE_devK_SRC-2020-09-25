@@ -17986,8 +17986,6 @@ C     SID = SQRT((ONE-COD)*(ONE+COD))
 
       DIMENSION G(3)
 
-      IF( IFMDIST .EQ. -1 ) THEN
-
         DO 10 I=1,3
           G(I)=DT_RNDM(GPART)
      
@@ -18007,7 +18005,6 @@ C     SID = SQRT((ONE-COD)*(ONE+COD))
 ************************************************************************
 
 C Anything between Fe and Pb will be Pb n(k), similar for other nucleus.
-      ELSE
 
         IMPLICIT DOUBLE PRECISION (A-H,O-Z)
         SAVE
@@ -18113,8 +18110,6 @@ C     Random number generation between 0 and 1
        
     200 CONTINUE
 
-
-    ENDIF
 
     END
 

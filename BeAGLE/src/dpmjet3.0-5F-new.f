@@ -5509,14 +5509,21 @@ C     already samples high momentum for deuteron.
          ! Use IFMDIST, 3rd varaible in control card of FERMI, to switch between
          ! different k momentum distributions
 
-         IF( (IFMDIST.EQ.-1) ) THEN
+         ! IF( (IFMDIST.EQ.-1) ) THEN
+         !    CALL DT_DFERMIO(PABS,NMASS)
+         ! ELSE IF ( (NMASS.GE.2) .AND. (NMASS.LE.4) .AND. (IFMDIST.GE.1) ) THEN
+         !    CALL DT_KFERMI(PABS,NMASS,IFMDIST)
+         ! ELSE IF ( (NMASS.GT.4) .AND. (IFMDIST.GE.1) ) THEN
+         !    CALL DT_DFERMI(PABS,NMASS)
+         ! ENDIF
+
+         IF ( IFMDIST.EQ.-1 ) THEN
             CALL DT_DFERMIO(PABS,NMASS)
          ELSE IF ( (NMASS.GE.2) .AND. (NMASS.LE.4) .AND. (IFMDIST.GE.1) ) THEN
             CALL DT_KFERMI(PABS,NMASS,IFMDIST)
          ELSE IF ( (NMASS.GT.4) .AND. (IFMDIST.GE.1) ) THEN
             CALL DT_DFERMI(PABS,NMASS)
          ENDIF
-
          ! IF ((NMASS.GE.2) .AND. (NMASS.LE.4) .AND. (IFMDIST.GE.1) ) THEN
          !    CALL DT_KFERMI(PABS,NMASS,IFMDIST)
          ! ELSE IF ( (NMASS.GT.4) .AND. ((IFMDIST .EQ. -1)) ) THEN

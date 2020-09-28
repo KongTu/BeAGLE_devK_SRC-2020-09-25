@@ -17984,22 +17984,27 @@ C     SID = SQRT((ONE-COD)*(ONE+COD))
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
         SAVE
 
-      DIMENSION G(3)
+      DOUBLE PRECISION AA,BB,CC
 
       IF( IFMDIST .EQ. -1 )
 
-        DO 10 I=1,3
-          G(I)=DT_RNDM(GPART)
+        AA = DT_RNDM(GPART)
+        BB = DT_RNDM(GPART)
+        CC = DT_RNDM(GPART)
+        
+        ! DO 10 I=1,3
+        !   G(I)=DT_RNDM(GPART)
      
-     10 CONTINUE
-        IF (G(3).LT.G(2)) GOTO 40
-        IF (G(3).LT.G(1)) GOTO 30
-        GPART = G(3)
+     ! 10 CONTINUE
+
+        IF (CC.LT.BB) GOTO 40
+        IF (CC.LT.AA) GOTO 30
+        GPART = CC
      20 RETURN
-     30 GPART = G(1)
+     30 GPART = AA
         GOTO 20
-     40 IF (G(2).LT.G(1)) GOTO 30
-        GPART = G(2)
+     40 IF (BB.LT.AA) GOTO 30
+        GPART = BB
         GOTO 20
 
 ************************************************************************

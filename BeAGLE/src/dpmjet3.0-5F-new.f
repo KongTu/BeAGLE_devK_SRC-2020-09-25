@@ -18002,121 +18002,121 @@ C     SID = SQRT((ONE-COD)*(ONE+COD))
         GPART = G(2)
         GOTO 20
 
-        END
-      
-      ENDIF
-
+      ELSE
 ************************************************************************
 * Use n(k) in Claudio Ciofi & S. Simula, PRC VOLUME 53, NUMBER 4, 1996.                                *
 ************************************************************************
 
 C Anything between Fe and Pb will be Pb n(k), similar for other nucleus.
 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      SAVE
-      
-      DOUBLE PRECISION X0,Z0,Z1,Z2,A0,B0,C0,D0,E0,F0,CDFN,
-     &     CDF,CDFPLUS,CDFMINUS
-      DOUBLE PRECISION CDFT(1:10000)
+        IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+        SAVE
+        
+        DOUBLE PRECISION X0,Z0,Z1,Z2,A0,B0,C0,D0,E0,F0,CDFN,
+       &     CDF,CDFPLUS,CDFMINUS
+        DOUBLE PRECISION CDFT(1:10000)
 
-      PARAMETER (PI=3.14159265359D+00)
-      IF( ANUCLEUS .GT. 208 ) THEN
-        A0 = 1.08D0
-        B0 = 0.118D0
-        C0 = 0.0D0
-        D0 = 0.0D0
-        E0 = 0.0D0
-        F0 = 0.0D0
-      ELSE IF( (ANUCLEUS .LE. 208) .OR. (ANUCLEUS .GT. 56) ) THEN 
-        A0 = 1.80D0
-        B0 = 4.77D0
-        C0 = 0.0D0
-        D0 = 25.5D0
-        E0 = 0.0D0
-        F0 = 40.3D0
-      ELSE IF( (ANUCLEUS .LE. 56) .OR. (ANUCLEUS .GT. 40)  ) THEN
-        A0 = 3.57D0
-        B0 = 4.97D0
-        C0 = 0.0D0
-        D0 = 19.8D0
-        E0 = 15.0D0
-        F0 = 0.0D0
-      ELSE IF( (ANUCLEUS .LE. 40) .OR. (ANUCLEUS .GT. 16)  ) THEN
-        A0 = 3.24D0
-        B0 = 3.72D0
-        C0 = 0.0D0
-        D0 = 11.1D0
-        E0 = 0.0D0
-        F0 = 0.0D0
-      ELSE IF( (ANUCLEUS .LE. 16) .OR. (ANUCLEUS .GT. 12)  ) THEN
-        A0 = 2.74D0
-        B0 = 3.33D0
-        C0 = 6.66D0
-        D0 = 0.0D0
-        E0 = 0.0D0
-        F0 = 0.0D0
-      ELSE IF( (ANUCLEUS .LE. 12) .OR. (ANUCLEUS .GT. 4)  ) THEN
-        A0 = 2.61D0
-        B0 = 2.66D0
-        C0 = 0.0D0
-        D0 = 0.0D0
-        E0 = 0.0D0
-        F0 = 0.0D0  
-      ELSE 
-        WRITE(*,*) "Should not be called here.ERROR2!ANUCLEUS=",ANUCLEUS
-      ENDIF 
+        PARAMETER (PI=3.14159265359D+00)
+        IF( ANUCLEUS .GT. 208 ) THEN
+          A0 = 1.08D0
+          B0 = 0.118D0
+          C0 = 0.0D0
+          D0 = 0.0D0
+          E0 = 0.0D0
+          F0 = 0.0D0
+        ELSE IF( (ANUCLEUS .LE. 208) .OR. (ANUCLEUS .GT. 56) ) THEN 
+          A0 = 1.80D0
+          B0 = 4.77D0
+          C0 = 0.0D0
+          D0 = 25.5D0
+          E0 = 0.0D0
+          F0 = 40.3D0
+        ELSE IF( (ANUCLEUS .LE. 56) .OR. (ANUCLEUS .GT. 40)  ) THEN
+          A0 = 3.57D0
+          B0 = 4.97D0
+          C0 = 0.0D0
+          D0 = 19.8D0
+          E0 = 15.0D0
+          F0 = 0.0D0
+        ELSE IF( (ANUCLEUS .LE. 40) .OR. (ANUCLEUS .GT. 16)  ) THEN
+          A0 = 3.24D0
+          B0 = 3.72D0
+          C0 = 0.0D0
+          D0 = 11.1D0
+          E0 = 0.0D0
+          F0 = 0.0D0
+        ELSE IF( (ANUCLEUS .LE. 16) .OR. (ANUCLEUS .GT. 12)  ) THEN
+          A0 = 2.74D0
+          B0 = 3.33D0
+          C0 = 6.66D0
+          D0 = 0.0D0
+          E0 = 0.0D0
+          F0 = 0.0D0
+        ELSE IF( (ANUCLEUS .LE. 12) .OR. (ANUCLEUS .GT. 4)  ) THEN
+          A0 = 2.61D0
+          B0 = 2.66D0
+          C0 = 0.0D0
+          D0 = 0.0D0
+          E0 = 0.0D0
+          F0 = 0.0D0  
+        ELSE 
+          WRITE(*,*) "Should not be called here.ERROR2!ANUCLEUS=",ANUCLEUS
+        ENDIF 
 
 C     Random number generation between 0 and 1     
-      E = DT_RNDM(GPART)
-!First, calculate the normalization:
+        E = DT_RNDM(GPART)
+  !First, calculate the normalization:
 
-      DO 10 I = 1,10000
-        Z0 = A0 * EXP(-B0*X0*X0)
-        Z1 = 1D0 + C0*X0*X0 + D0*X0*X0*X0*X0
-        Z2 = E0*X0*X0*X0*X0*X0*X0 + F0*X0*X0*X0*X0*X0*X0*X0*X0
+        DO 10 I = 1,10000
+          Z0 = A0 * EXP(-B0*X0*X0)
+          Z1 = 1D0 + C0*X0*X0 + D0*X0*X0*X0*X0
+          Z2 = E0*X0*X0*X0*X0*X0*X0 + F0*X0*X0*X0*X0*X0*X0*X0*X0
 
-        CDF = CDF + (Z0*(Z1+Z2))*(4.0D0*PI*X0*X0)*0.001D0
-        X0 = X0 + 0.001D0
+          CDF = CDF + (Z0*(Z1+Z2))*(4.0D0*PI*X0*X0)*0.001D0
+          X0 = X0 + 0.001D0
 
-   10 CONTINUE
+     10 CONTINUE
 
 
-!Second, calculate CDF and see if RANDOM NUMBER matches CDF, return X0 value.
-!C and D can be switched using KRANGE (IFMDIST), where 1 is minimum-bias k-
-!distribution, and 2 starts to sample from 99.9% of the cross section (tail of k-momentum)
+  !Second, calculate CDF and see if RANDOM NUMBER matches CDF, return X0 value.
+  !C and D can be switched using KRANGE (IFMDIST), where 1 is minimum-bias k-
+  !distribution, and 2 starts to sample from 99.9% of the cross section (tail of k-momentum)
 
-      CDFN = CDF
-      X0 = 0.000D0
-      CDF = 0.000D0
+        CDFN = CDF
+        X0 = 0.000D0
+        CDF = 0.000D0
 
-      DO 20 I = 1,10000
-        Z0 = A0 * EXP(-B0*X0*X0)
-        Z1 = 1D0 + C0*X0*X0 + D0*X0*X0*X0*X0
-        Z2 = E0*X0*X0*X0*X0*X0*X0 + F0*X0*X0*X0*X0*X0*X0*X0*X0
-        CDF = CDF + (0.001D0/CDFN)*Z0*(Z1+Z2)*(4.0D0*PI*X0*X0)
-        X0 = X0 + 0.001D0
+        DO 20 I = 1,10000
+          Z0 = A0 * EXP(-B0*X0*X0)
+          Z1 = 1D0 + C0*X0*X0 + D0*X0*X0*X0*X0
+          Z2 = E0*X0*X0*X0*X0*X0*X0 + F0*X0*X0*X0*X0*X0*X0*X0*X0
+          CDF = CDF + (0.001D0/CDFN)*Z0*(Z1+Z2)*(4.0D0*PI*X0*X0)
+          X0 = X0 + 0.001D0
 
-        CDFT(I) = CDF
-        !T for tolorence, this needs to be set dynamically
-        IF( I .EQ. 1 ) THEN
-          T = 0.005D0
-        ELSE
-          T = CDFT(I)-CDFT(I-1)
-        ENDIF
-        
-        CDFPLUS = CDF + T
-        CDFMINUS = CDF + 10D-20
+          CDFT(I) = CDF
+          !T for tolorence, this needs to be set dynamically
+          IF( I .EQ. 1 ) THEN
+            T = 0.005D0
+          ELSE
+            T = CDFT(I)-CDFT(I-1)
+          ENDIF
+          
+          CDFPLUS = CDF + T
+          CDFMINUS = CDF + 10D-20
 
-        IF( (E .GE. CDFMINUS) .AND. (E .LT. CDFPLUS) ) THEN
-          GPART = X0
-          RETURN
-        ELSE
-          GOTO 20
-        ENDIF
-     
-   20 CONTINUE
+          IF( (E .GE. CDFMINUS) .AND. (E .LT. CDFPLUS) ) THEN
+            GPART = X0
+            RETURN
+          ELSE
+            GOTO 20
+          ENDIF
+       
+     20 CONTINUE
 
-      END
+
+    ENDIF
+
+    END
 
 *
 *===Added by KONG TU for realistic intrinsic k momentum distribution===*

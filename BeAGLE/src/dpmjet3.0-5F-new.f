@@ -18194,7 +18194,7 @@ C       NN is normalization to unity.
         E = C
         B2 = 0.220D0
         NN = 1.0D0
-      IF( (KRANGE .EQ. 1) .OR. (KRANGE .EQ. 3)  ) THEN ! 
+      ELSE IF( (KRANGE .EQ. 1) .OR. (KRANGE .EQ. 3)  ) THEN ! 
         E = C
         B2 = 0.220D0
         NN = 1.0D0

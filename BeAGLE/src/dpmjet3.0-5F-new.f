@@ -5508,16 +5508,16 @@ C     already samples high momentum for deuteron.
     1    CONTINUE
          ! Use IFMDIST, 3rd varaible in control card of FERMI, 
          ! 1.) -1 is the default DPMJet setting
-         ! 2.) 1 is most up-to-date version with fermi momentum based on
+         ! 2.) 0 is most up-to-date AND suggested version with fermi momentum based on
          !     Claudio Ciofi & S. Simula PRC paper
-         ! 3.) above >1, are reserved for Deuteron distribution for now.
+         ! 3.) >=1, are reserved for other distributions for now.
          !     See DT_KFERMI COMMENT for details.
          
-         IF ((NMASS.GE.2) .AND. (NMASS.LE.4) .AND. (IFMDIST.GE.1) ) THEN
+         IF ((NMASS.GE.2) .AND. (NMASS.LE.4) .AND. (IFMDIST.GE.0) ) THEN
             CALL DT_KFERMI(PABS,NMASS,IFMDIST)
          ELSE IF ( (IFMDIST .EQ. -1) ) THEN
             CALL DT_DFERMIO(PABS,NMASS)
-         ELSE IF ( (NMASS.GT.4) .AND. ((IFMDIST .GE. 1)) ) THEN
+         ELSE IF ( (NMASS.GT.4) .AND. (IFMDIST.GE.0) ) THEN
             CALL DT_DFERMI(PABS,NMASS)
          ENDIF
          PABS = PFERM*PABS
@@ -18169,16 +18169,28 @@ C     Random number generation between 0 and 1
 C     Random number generation between 0.993 and 1, to select higher k 
 C     momentum tail as for k > 3 fm**-1
       D = 0.993D0 + (1.0D0-0.993D0)*C  
-C      D = 0.993D0 + (1.0D0-0.993D0)*DT_RNDM(GGPART)  
-C     Different n(k) distribution.  
-C     11, 12, 13, 14 are alt 1, 2, 3, 4, respectively.
-C     NN is normalization to unity.
-C     1 and 3 are the same, where 3 turns on "MOVING"
-C     2 is > 0.993 cross section
-C     4 and 5 are heavy tails, where 5 turns on "MOVING" for A>12
+
+
+C     Instructions on SETTING different KRANGE or IFMDIST
+
+C     - 0 is the most recommended settings for all A>=2, other numbers below are 
+C     reserved for other distributions or uses.
+
+C     - 1 and 3 are NOW the same with 0, where 3 turns on "MOVING". 
+C       "MOVING" study is NOT completed yet.
+
+C     - 2 is > 0.993 cross section of the n(k)
+
+C     - 4 and 5 are heavy tails, where 5 turns on "MOVING" for A>12
+
+C     - Different n(k) distribution.  
+C       11, 12, 13, 14 are alt distributions different from default n(k).
+C       11-14, from smaller tail to larger tail.
+C       NN is normalization to unity.
+
 
       E = C
-      IF( (KRANGE .EQ. 1) .OR. (KRANGE .EQ. 3)  ) THEN ! 
+      IF( (KRANGE .EQ. 0) .OR. (KRANGE .EQ. 1) .OR. (KRANGE .EQ. 3)  ) THEN ! 
         E = C
         B2 = 0.220D0
         NN = 1.0D0
